@@ -1,0 +1,658 @@
+body {
+    background-color: rgb(233, 226, 213);
+    color: #333333;
+  }
+
+
+/* settings banner */
+
+
+.settings-banner {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0 0;
+  text-align: center;
+  border-top: 1px solid rgb(172, 12, 12);
+  border-bottom: 1px solid gray;
+}
+
+.settings-banner a {
+  color: black;
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
+.username {
+  width: 33%;
+  display: flex;
+  justify-content: flex-start;
+  /* background-color: rgb(172, 12, 12); */
+}
+
+.welcome {
+  display: flex;
+  margin-left: 20px;
+  font-size: 12px;
+}
+
+.welcome h4, .welcome h5{
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0;
+  margin-top: 5px;
+  height: 100%;
+  vertical-align: center;
+}
+
+.welcome h5{
+/* color: green; */
+text-decoration: none;
+margin-left: 10px;
+}
+
+.announcement {
+  /* width: 33%; */
+  font-size: 1vw
+}
+ 
+
+/* settings flexbox */
+
+
+.settings {
+  display: flex;
+  flex-flow: row-reverse;
+  /* width: 33%; */
+  justify-content: flex-end;
+}
+.settings h4 {
+  font-size: 12px;
+  margin: 0;
+}
+
+
+/* settings buttons */
+
+
+.sign-in-icon, .sign-up-icon, .location-icon {
+  margin-top: 5px;
+  transition: height 1s, background-color 1s;
+}
+
+
+.sign-in-btn, .sign-up-btn, .location-btn {
+  display: none;
+}
+
+.sign-in:hover, .sign-up:hover, .location:hover {
+  cursor: pointer;
+}
+
+.sign-in, .sign-up, .location {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+ /* before  */
+.sign-in-box, .sign-up-box, .location-box {
+  border-style: solid;
+  border-width: 0;
+  padding: 0 0;
+  padding-left: 3px;
+  width: 0px;
+  height: 0px;
+  background-color: transparent;
+  transition: width 1s, background-color 1s;
+}
+
+
+
+/* sign in */
+
+
+.sign-in-btn:checked~.sign-in-box{
+  background-color: #FFCCCC;
+  width: 200px;
+  height: 100%;
+}
+
+/* close the other two */
+.sign-in-btn:checked~.sign-up-icon, .sign-in-btn:checked~.location-icon{
+  /* background-color: #FFCCCC; */
+  height: 0;
+  width: 0;
+  color: transparent;
+  transition: height 1s, background-color 1s;
+}
+
+/* if either are already open, close them */
+.sign-in-btn:checked~.sign-up-btn:checked~.submitButton2, .sign-in-btn:checked~.sign-up-btn:checked~.sign-up-box, .sign-in-btn:checked~.location-btn:checked~.submitButton3, .sign-in-btn:checked~.location-btn:checked~.location-box{
+  /* background-color: #137968; */
+  height: 0;
+  border: 0;
+  width: 0;
+  color: transparent;
+  transition: height 1s, background-color 1s;
+}
+
+
+
+/* sign up  */
+
+
+.sign-up-btn:checked~.sign-up-box{
+  background-color: #FFCCCC;
+  width: 200px;
+  height: 100%;
+}
+
+/* close the location */
+.sign-up-btn:checked.sign-in-icon, .sign-up-btn:checked~.location-icon{
+  /* background-color: #FFCCCC; */
+  height: 0;
+  width: 0;
+  order: 1;
+  color: transparent;
+  transition: height 1s, background-color 1s;
+}
+
+/* if either are already open, close them */
+.sign-up-btn:checked~.location-btn:checked~.submitButton3, .sign-up-btn:checked~.location-btn:checked~.location-box{
+  /* background-color: #137968; */
+  height: 0;
+  border: 0;
+  width: 0;
+  color: transparent;
+  transition: height 1s, background-color 1s;
+}
+
+
+/* location */
+
+
+.location-btn:checked~.location-box{
+  background-color: #FFCCCC;
+  width: 200px;
+  height: 100%;
+}
+
+
+
+  /* Submit button */
+
+      /* before  */
+.submitButton1, .submitButton2, .submitButton3{
+  border-style: solid;
+  box-sizing: border-box;
+  border-width: 0;
+  padding: 0 0;
+  width: 0px;
+  height: 0px;
+  transition: width 1s, background-color;
+}
+
+      /* after */
+.sign-in-btn:checked~.submitButton1, .sign-up-btn:checked~.submitButton2, .location-btn:checked~.submitButton3{
+  border-radius: 3px;
+  border-width: 1px;
+  width: 66px;
+  height: 100%;
+}
+
+.sign-in-btn:checked~.submitButton1:hover, .sign-up-btn:checked~.submitButton2:hover, .location-btn:checked~.submitButton3:hover{
+  background-color: rgb(220,220,220);
+  cursor: pointer;
+}
+
+  /* Navigation bar */
+
+.my-brand {
+    width: 100px;
+    height: auto;
+  }
+  
+  .bg-dark {
+    background-color: #B2D6FF !important;
+  }
+  
+  .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+      color: #dd8113;
+    }
+    
+    .navbar-dark .navbar-nav .nav-link  {
+      color: #dd8113;;
+    }
+  
+.nav-item-active, .nav-item {
+    font-family: 'Open Sans', sans-serif;
+}
+    
+    .nav-link-active  {
+      color: green;
+    }
+  
+    .btn-outline-success {
+      color: #dd8113;
+      background-color: transparent;
+      background-image: none;
+      border-color: #dd8113;
+      font-family: 'Open Sans', sans-serif;
+  }
+  
+  .btn-outline-success:hover {
+      color: #97228d;
+      background-color: #dd8113;
+      border-color: #97228d;
+  }
+  
+  .first-container {
+    width: 100%;
+    /* height: auto; */
+    /* display:block; */
+    text-align: center;
+    overflow: hidden;
+    /* border: 1px solid red; */
+    
+  }
+  
+  
+   .container{
+      height: auto;
+  } 
+  
+  
+  .navbar, .navbar-expand-lg, .navbar-dark, .bg-dark {
+    position: sticky;
+    top: 0;
+  }
+  
+  /* .first-container {
+    position: sticky;
+    left: 50px;
+  } */
+  
+  .cropped {
+    height: 159px;
+    width: 950px;
+    margin-right: auto;
+    margin-left: auto;
+    object-fit: cover;
+    object-position: -240px top ;
+    border-bottom: 6px solid white;
+    border-top: 6px solid white;
+    /* border: 1px solid green; */
+  }
+  
+  
+  
+  
+  /* Outside the Media Query! Mobile first right here.  */
+  
+  
+  
+  
+  .picture-container {
+    background-color: rgb(233, 226, 213);
+    width: 100%;
+    /* height: 4px; */
+    float: left;
+    /* display: flex; */
+    height: 100%;
+    overflow: hidden;
+    border: 1px red;
+  }
+  
+  .column-heading {
+    width:100%;
+    margin: 0 auto;
+    /* margin-top: 20px; */
+    padding: 30px 2%;
+    padding-bottom: 10px;
+    float: left;
+    background-color: #B2D6FF;  
+    /* background-color: transparent;  */
+    text-align: center;
+    vertical-align: center;
+  }
+  
+  .column-heading h5{
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size:2vm;
+  }
+  
+  .column-heading a:hover { 
+    text-decoration:none;
+  }
+  
+  .column-outside {
+    float: left;
+    width: 97%;
+    margin: 90px 1.5%;
+    margin-top: 0;
+    height: 470px;
+    /* text-align: center; */
+    background-color: white;  
+  }
+  
+  .column-outside h6{ 
+    font-size: 13px;
+    padding: 10px;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .link, .picture-inside-sunglasses, .picture-inside{
+    width: 100;
+    height: 40px;
+    font-size: 13px;
+    padding: 5px;
+    padding-top: 20px;
+    clear: both;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .link a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .column-inside {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 46%;
+    margin: 25px 2%;
+    margin-top: 0;
+    height: 150px;
+    background-color: white;    
+  }
+  
+  .column-inside a img{
+    width: 126px;
+    height: 120px;
+    object-fit: cover;
+  }
+  
+  .column-inside a h5 {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    text-decoration: none;
+    padding-top: 5px;
+  }
+  
+  .column-inside a:hover {
+    text-decoration: none;
+  }
+  
+  .picture-inside img{
+    margin: 0 auto;
+    
+    height: 300px;
+    width: 265px;
+    /* height: 100%;  */
+    font-size: 13px;
+    object-fit: cover;
+    color: black;
+  }
+  
+  .picture-inside a {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    
+    text-decoration: none;
+    /* padding-top: 49px; */
+    width:fit-content;
+    height:fit-content;
+  }
+
+  .picture-inside .picture {
+    margin: 0 auto;
+    margin-bottom: 25px;
+  }
+  
+  .picture-inside a:hover {
+    text-decoration: none;
+  }
+  
+  
+  .picture-inside-sunglasses a img{
+    margin: 0 10%;
+    
+    height: 270px;
+    width: 80%; 
+    height: 300px;
+    /* font-size: 13px; */
+    object-fit: cover;
+    color: black;
+  }
+  
+  .picture-inside-sunglasses a {
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    margin-bottom: 20px;
+    text-decoration: none;
+    /* padding-top: 49px; */
+  }
+  
+  .picture-inside-sunglasses a:hover {
+    text-decoration: none;
+  }
+  
+  
+  
+  
+  
+  
+  
+  @media (min-width: 641px) {
+    .cropped {
+      height: 195px;
+      width: 1200px;
+    }
+    
+
+  
+    .column-outside {
+      width: 45%;
+      margin: 90px 2.5%;
+    }
+
+    
+    .column-inside a img{
+      width: 126px;
+      height: 120px;
+      object-fit: cover;
+    }
+    
+    
+    
+    .picture-inside h6{
+      padding-top: 50px;
+    }
+
+    .picture-inside a img{
+        margin-bottom: 24px;
+      }
+  
+    .picture-inside-sunglasses a, .picture-inside a {
+        margin-bottom: 0;
+    }
+  
+    .picture-inside-sunglasses a img{
+      margin-bottom: 49px;
+      font-size: 13px;
+    }
+    
+    .picture-inside-sunglasses h6{
+      padding-top: 49px;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  @media (min-width: 1045px) {
+    .cropped {
+      height: 251px;
+      width: 1500px;
+      object-position: top ;
+    }
+    
+    .column-heading h5{
+      font-size: 19px;
+    }
+    
+    .column-outside {
+      width: 28%;
+      margin: 90px 2.66%; 
+    }
+    
+    
+  
+    
+    .column-inside a img{
+      width: 126px;
+      height: 120px;
+      object-fit: cover;
+    }
+    
+    .picture-inside a img{
+        margin-bottom: 25px;
+      }
+  
+    .picture-inside-sunglasses a, .picture-inside a {
+        margin-bottom: 20px;
+    }
+    
+    .picture-inside h6{
+      padding-top: 50px;
+    }
+  
+  
+    .picture-inside-sunglasses a img{
+      margin-bottom: 30px;
+      font-size: 13px;
+    }
+    
+    .picture-inside-sunglasses h6{
+      padding-top: 49px;
+    }
+  
+  
+  
+  }
+  
+  
+  
+  
+  
+  
+  .container-overlay {
+    width: 100%;
+    height: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    float: none;
+    /* background-color: purple; */
+  
+  }
+  
+  
+  
+  
+  
+  
+  
+  /* Everything below is spacer */
+  
+  
+  .overlay-spacer {
+    background-color: palegoldenrod;
+    width: 100%;
+    /* height: 179.3px; */
+    height: 700px;
+    margin: 0auto;
+    }
+    
+  
+  h3 {
+      text-decoration:underline;
+      font-size: 3em;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+  
+
+  
+  
+  
+  
+    .spacer1 {
+      float: left;
+      font-family: 'Open Sans', sans-serif;
+      /* border: 1px solid rgb(174, 177, 175); */
+      text-align: center;
+      
+      box-sizing: border-box;
+      /* height: 10px; */
+      /* clear:both; */
+  }
+  
+    .spacer {
+        height: 100px;
+        /* clear:both; */
+        /* border: 1px solid rgb(163, 162, 172); */
+    }
+  
+    .caption { 
+        text-align: center;
+    }
+  
+  
+    .paragraph {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-align: left;
+    }
+  
+    .footer {
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1em;
+      opacity: .25;
+      text-align: center;
+      padding-top: 2em;
+      padding-bottom: 2em;
+      transition: opacity 1s ease-in-out;
+  }
+  
+  .footer {
+      color: currentColor;
+  }
+  
+  .footer:hover {
+      opacity: .75;
+  }
+  
+  
+  h2 a{
+      color: #22fcf1;
+      text-decoration:none;
+      font-size: 2em;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      
+  }
+  
+  h2 a:hover {
+      text-decoration:underline;
+      /* font-size: 3em; */
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      /* color: #174ad4; */
+  }
