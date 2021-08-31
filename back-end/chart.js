@@ -22,7 +22,7 @@ chart.setConfig({
 console.log(chart.getUrl());
 
 // Get the image...
-const image = await chart.toBinary();
+// const image = await chart.toBinary();
 
 // Or write it to a file
 chart.toFile('chart.png');
