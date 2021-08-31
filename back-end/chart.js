@@ -25,7 +25,7 @@ console.log(chart.getUrl());
 // const image = await chart.toBinary();
 
 // Or write it to a file
-chart.toFile('chart.png');
+// chart.toFile('chart.png');
 
 // Print the chart URL
-console.log(myChart.getUrl());
+// console.log(myChart.getUrl());
