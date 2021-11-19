@@ -46,7 +46,7 @@ export default {
       passwordLogin: '',
       error: '',
       errorLogin: '',
-    }
+    }//test
   },
   methods: {
     async register() {
