@@ -1,7 +1,7 @@
 <template>
 <div class="home">
    <div class="menu" v-if="user">
-    <button @click="clearPhotos" class="pure-button space-right">Clear Photos</button>
+    <button @click="newSurvey" class="pure-button space-right">New Survey</button>
     <p>Welcome!</p>
     <h2>{{user.firstName}} {{user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
   </div>
@@ -40,6 +40,9 @@ export default {
     },
   },
   methods: {
+    async newSurvey(){
+        await axios.post("/api/survey/newSurvey");
+      },
     async clearPhotos(){
         await axios.delete("/api/photos/cp");
       },
