@@ -23,4 +23,12 @@ const questionSchema = new mongoose.Schema({
   },
 });
 
+
+
 const Question = mongoose.model('Question', questionSchema);
+
+module.exports = {
+    routes: router,
+    model: Question,
+  };
+  

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
 
+const question = require("./question.js");
+const Question = question.model;
+const answer = require("./answer.js");
+const Answer = answer.model; 
+
 const surveySchema = new mongoose.Schema({
     question: {
       type: mongoose.Schema.ObjectId,
@@ -12,23 +17,27 @@ const surveySchema = new mongoose.Schema({
   
   const Survey = mongoose.model('Survey', surveySchema);
 
-let Survey = new Survey ({
+let practiceSurvey = new Survey ({
   result: "You are a fun person to be around!!",
-  question = new Question ({
+  question: new Question ({
     questionContent: "What is your favorite color?",
-    answerA = new Answer ({
-        answerContent: "Yellow"
+  }),
+    answerA: new Answer ({
+        answerContent: "Yellow",
+        points: 0
       }),
-      answerB = new Answer ({
-        answerContent: "Blue"
+      answerB: new Answer ({
+        answerContent: "Blue",
+        points: 1
       }),
-      answerC = new Answer ({
-        answerContent: "Green"
+      answerC: new Answer ({
+        answerContent: "Green",
+        points: 2
       }),
-      answerD = new Answer ({
-        answerContent: "Red"
+      answerD: new Answer ({
+        answerContent: "Red",
+        points: 3
       })
-  })
 })
 
 
@@ -36,7 +45,7 @@ let Survey = new Survey ({
 // Add Surbey to Database
 router.post('/newSurvey', async (req, res) => {
   console.log("Calling Post");
-  const survey = this.Survey
+  const survey = this.practiceSurvey
   console.log(survey);
   try {
     await survey.save();

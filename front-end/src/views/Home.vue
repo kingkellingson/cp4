@@ -1,12 +1,9 @@
 <template>
 <div class="home">
-   <div class="menu" v-if="user">
+   <div class="menu">
     <button @click="newSurvey" class="pure-button space-right">New Survey</button>
     <p>Welcome!</p>
-    <h2>{{user.firstName}} {{user.lastName}} <a @click="logout"><i class="fas fa-sign-out-alt"></i></a></h2>
   </div>
-  <image-gallery :photos="photos" />
-  <p v-if="error">{{error}}</p>
 </div>
 </template>
 
