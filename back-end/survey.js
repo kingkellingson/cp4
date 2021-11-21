@@ -20,7 +20,6 @@ const surveySchema = new mongoose.Schema({
 
 
 
-
 // Add Survey to Database
 router.post('/newSurvey', async (req, res) => {
   console.log("Calling Post");
@@ -155,6 +154,17 @@ router.post('/newSurvey', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.get('/getSurveys', async (req, res) => {
+  try {
+      console.log("Getting surveys back end"); 
+      let surveys = await Survey.find();
+      res.send(surveys); 
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+})
 
 module.exports = {
   routes: router,

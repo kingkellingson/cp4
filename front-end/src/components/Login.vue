@@ -1,39 +1,14 @@
 <template>
 
 <div class="surveyHolder">
-  <div class="question"></div>
-</div>
-
-<div class="hero">
-  <div class="heroBox">
-    <form class="pure-form">
-      <fieldset>
-        <legend>Register for an account</legend>
-        <input placeholder="first name" v-model="firstName">
-        <input placeholder="last name" v-model="lastName">
-      </fieldset>
-      <fieldset>
-        <input placeholder="username" v-model="username">
-        <input type="password" placeholder="password" v-model="password">
-      </fieldset>
-      <fieldset>
-        <button type="submit" class="pure-button pure-button-primary" @click.prevent="register">Register</button>
-      </fieldset>
-    </form>
-    <p v-if="error" class="error">{{error}}</p>
-    <form class="pure-form space-above">
-      <fieldset>
-        <legend>Login</legend>
-        <input placeholder="username" v-model="usernameLogin">
-        <input type="password" placeholder="password" v-model="passwordLogin">
-      </fieldset>
-      <fieldset>
-        <button type="submit" class="pure-button pure-button-primary" @click.prevent="login">Login</button>
-      </fieldset>
-    </form>
-    <p v-if="errorLogin" class="error">{{errorLogin}}</p>
+  <div class="survey" v-for="survey in surveys" :key="survey.id">
+    <div class="question" v-for="question in survey.questions" :key="question.id">
+      <h2>{{question.questionContent}}</h2>
+      <h2>{{question.answerA.answerContent}}</h2>
+    </div>
   </div>
 </div>
+
 </template>
 
 
@@ -43,7 +18,8 @@ export default {
   name: 'HomePage',
   data() {
     return {
-      survey: '',
+      id: '',
+      surveys: [],
       firstName: '',
       lastName: '',
       username: '',
@@ -54,17 +30,19 @@ export default {
       errorLogin: '',
     }//test
   },
+  created() {
+    this.getSurveys(); 
+  },
   methods: {
-    async getSurvey() {
+    async getSurveys() {
       try {
-        let survey = await axios.get('/api/survey/getSurvey', {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          username: this.username,
-          password: this.password,
-        });
-        this.$root.$data.user = response.data.user;
+        console.log("Trying to get surveys"); 
+        let response = await axios.get('/api/survey/getSurveys');
+        this.surveys = response.data; 
+        console.log(this.surveys); 
+        return true; 
       } catch (error) {
+        console.log(error); 
         this.error = error.response.data.message;
         this.$root.$data.user = null;
       }
@@ -120,13 +98,13 @@ h1 {
   font-variant: capitalize;
 }
 
-.hero {
+.surveyHolder {
   padding: 120px;
   display: flex;
   justify-content: center;
 }
 
-.heroBox {
+.survey {
   text-align: center;
 }
 
