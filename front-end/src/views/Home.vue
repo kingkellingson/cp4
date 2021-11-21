@@ -1,9 +1,10 @@
 <template>
 <div class="home">
-   <div class="menu">
+  <div class="menu">
     <button @click="generateSurvey" class="pure-button space-right">New Survey</button>
     <p>Welcome!</p>
   </div>
+
 </div>
 </template>
 

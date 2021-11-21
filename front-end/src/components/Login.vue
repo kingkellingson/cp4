@@ -1,4 +1,9 @@
 <template>
+
+<div class="surveyHolder">
+  <div class="question"></div>
+</div>
+
 <div class="hero">
   <div class="heroBox">
     <form class="pure-form">
@@ -38,6 +43,7 @@ export default {
   name: 'HomePage',
   data() {
     return {
+      survey: '',
       firstName: '',
       lastName: '',
       username: '',
@@ -49,6 +55,20 @@ export default {
     }//test
   },
   methods: {
+    async getSurvey() {
+      try {
+        let survey = await axios.get('/api/survey/getSurvey', {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          username: this.username,
+          password: this.password,
+        });
+        this.$root.$data.user = response.data.user;
+      } catch (error) {
+        this.error = error.response.data.message;
+        this.$root.$data.user = null;
+      }
+    },
     async register() {
       this.error = '';
       this.errorLogin = '';
