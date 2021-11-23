@@ -2,7 +2,14 @@
 <div class="home">
   <div class="menu">
     <button @click="generateSurvey" class="pure-button space-right">New Survey</button>
-    <p>Welcome!</p>
+    <p>Welcome! Choose a survey to edit or create a new survey.</p>
+    <div class="suggestions" v-if="suggestions.length > 0">
+    <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
+      <h2>{{survey.title}}</h2>
+      <button @click="editSurvey(survey)" class="ui button" id="survey">Edit</button>
+      <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
+    </div>
+    </div>
   </div>
 
 </div>
@@ -11,31 +18,23 @@
 
 <script>
 import axios from 'axios';
-import ImageGallery from '@/components/ImageGallery.vue';
 export default {
   name: 'Home',
-  components: {
-    ImageGallery,
-  },
   data() {
     return {
-      photos: [],
+      surveys: [],
+      chosenSurvey: null,
       error: '',
     }
   },
-  // async created() {
-  //   this.getPhotos();
-  //   try {
-  //     let response = await axios.get('/api/users');
-  //     this.$root.$data.user = response.data.user;
-  //   } catch (error) {
-  //     this.$root.$data.user = null;
-  //   }
-  // },
+  created() {
+    this.getSurveys();
+  },
   computed: {
-    user() {
-      return this.$root.$data.user;
-    },
+    suggestions() {
+      let items = this.surveys; 
+      return items.sort((a, b) => a.title > b.title);
+    }
   },
   methods: {
     async generateSurvey(){
@@ -46,45 +45,72 @@ export default {
         console.log("Trying to get surveys"); 
         let response = await axios.get('/api/survey/getSurveys');
         this.surveys = response.data; 
-        console.log(this.surveys); 
         return true; 
       } catch (error) {
         console.log(error); 
         this.error = error.response.data.message;
       }
     },
-    // async clearPhotos(){
-    //     await axios.delete("/api/photos/cp");
-    //   },
-    // async getPhotos() {
-    //   try {
-    //     let response = await axios.get("/api/photos/all");
-    //     console.log ("got this response: ", response)
-    //     this.photos = response.data;
-    //   } catch (error) {
-    //     this.error = error.response.data.message;
-    //   }
-    // },
-    // async logout() {
-    //   try {
-    //     await axios.delete("/api/users");
-    //     this.$root.$data.user = null;
-    //   } catch (error) {
-    //     this.$root.$data.user = null;
-    //   }
-    // },
+    async editSurvey(item) {
+      try {
+        console.log("Getting one survey");
+        let response = await axios.get('/api/survey/getSurvey/' + item._id);
+        this.chosenSurvey = response.data; 
+        console.log(response.data); 
+      } catch (error) {
+        console.log(error); 
+        this.error = error.response.data.message; 
+      }
+    },
+    async deleteSurvey(item) {
+      try {
+        console.log("Delete called");
+        await axios.delete("/api/survey/delete/" + item._id);
+        console.log("Delete almost finished"); 
+        this.getSurveys();
+        console.log("Delete successful"); 
+        return true;
+      } catch (error) {
+        console.log("Error in delete!"); 
+        console.log(error);
+      }
+    },
   }
 }
 </script>
 
 
 <style scoped>
-.menu {
-  display: flex;
-  justify-content: space-between;
+
+.home {
+  padding: 120px;
+  /* display: flex; */
+  justify-content: center;
 }
 
-.menu h2 {
+.menu {
+  display: flex;
+  flex-wrap: wrap; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+
+.survey-options {
+  display: flex;
+  align-items: left; 
+  justify-content: space-between; 
+  padding: 15px; 
+}
+
+/* .menu {
+  display: flex;
+  justify-content: space-between;
+} */
+
+h2 {
   font-size: 14px;
+  padding-top: 10px; 
+  padding-right: 15px; 
 }
 </style>

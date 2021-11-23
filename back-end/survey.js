@@ -21,9 +21,9 @@ const surveySchema = new mongoose.Schema({
 router.post('/newSurvey', async (req, res) => {
   console.log("Calling Post");
   const survey = new Survey ({
-    title: "Default Survey",
-    result: [
-      "You are a fun person to be around!!",
+    title: "Survey 2",
+    results: [
+      "You are a fun person to be around!",
       "You hate pancakes!", 
       "You like the Avengers!",
       "You can't make a decision!",
@@ -31,7 +31,7 @@ router.post('/newSurvey', async (req, res) => {
     ],
     questions: [ 
       new Question ({
-        questionContent: "What is your favorite color?",
+        questionContent: "What is your second favorite color?",
         answerA: {
             answerContent: "Yellow",
             points: 0
@@ -161,7 +161,6 @@ router.post('/newSurvey', async (req, res) => {
 
 router.get('/getSurveys', async (req, res) => {
   try {
-      console.log("Getting surveys back end"); 
       let surveys = await Survey.find();
       res.send(surveys); 
   } catch (error) {
@@ -170,7 +169,7 @@ router.get('/getSurveys', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/getSurvey/:id', async (req, res) => {
   try {
       console.log("Getting answers back end"); 
       let answer = await Survey.findOne({
@@ -184,6 +183,17 @@ router.get('/:id', async (req, res) => {
     res.sendStatus(500);
   }
 })
+
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    await Survey.deleteOne({
+      _id: req.params.id
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
 
 module.exports = {
   routes: router,
