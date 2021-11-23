@@ -10,6 +10,23 @@
       <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
     </div>
     </div>
+    <div class="createSurveyChoice">
+      <button @click="createSurvey = true" class="ui button" id="survey">Create New Survey</button>
+    </div>
+    <div class="createSurvey" v-if="createSurvey">
+      <hr>
+      <form>
+        <label for="title">Survey Title:  </label>
+        <input type="text" id="title" name="title" value="Practice Survey"><br><br>
+        <button @click="questions.push(0)" class="ui button" id="survey">Add Question</button> <br><br>
+        <div class="addQuestion" v-if="questions.length > 0">
+          <div class="questions" v-for="question in questions" :key="question.id">
+            <input type="text" id="qContent" name="qContent" value="What's your favorite color?"><br><br>
+          </div>
+        </div>
+        <button @click="postSurvey(survey)" class="ui button" id="survey">Submit</button>
+      </form>
+    </div>
   </div>
 
 </div>
@@ -25,6 +42,8 @@ export default {
       surveys: [],
       chosenSurvey: null,
       error: '',
+      createSurvey: false,
+      questions: [],
     }
   },
   created() {
@@ -34,7 +53,7 @@ export default {
     suggestions() {
       let items = this.surveys; 
       return items.sort((a, b) => a.title > b.title);
-    }
+    },
   },
   methods: {
     async generateSurvey(){
@@ -103,6 +122,12 @@ export default {
   padding: 15px; 
 }
 
+.survey-create {
+  margin: 10px; 
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+}
+
 /* .menu {
   display: flex;
   justify-content: space-between;
@@ -112,5 +137,22 @@ h2 {
   font-size: 14px;
   padding-top: 10px; 
   padding-right: 15px; 
+}
+
+hr {
+  margin: 25px;   
+}
+
+br {
+  padding: 50px; 
+}
+
+form {
+  margin: 10px;
+  padding: 10px; 
+}
+
+form label {
+  margin-right: 10px; 
 }
 </style>
