@@ -8,8 +8,9 @@ const answer = require("./answer.js");
 const Answer = answer.model; 
 
 const surveySchema = new mongoose.Schema({
+    title: String,
     questions : { type : Array , "default" : [] },
-    result: String,
+    results: { type : Array , "default" : [] },
   });
   
   const Survey = mongoose.model('Survey', surveySchema);
@@ -20,7 +21,14 @@ const surveySchema = new mongoose.Schema({
 router.post('/newSurvey', async (req, res) => {
   console.log("Calling Post");
   const survey = new Survey ({
-    result: "You are a fun person to be around!!",
+    title: "Default Survey",
+    result: [
+      "You are a fun person to be around!!",
+      "You hate pancakes!", 
+      "You like the Avengers!",
+      "You can't make a decision!",
+      "You are bored of writing surveys!"
+    ],
     questions: [ 
       new Question ({
         questionContent: "What is your favorite color?",
@@ -60,82 +68,82 @@ router.post('/newSurvey', async (req, res) => {
             points: 3
         }
       }),
-      // new Question ({
-      //   questionContent: "What is your favorite fast food item?",
-      //   answerA: new Answer ({
-      //       answerContent: "French fries",
-      //       points: 0
-      //   }),
-      //   answerB: new Answer ({
-      //       answerContent: "Soda",
-      //       points: 1
-      //   }),
-      //   answerC: new Answer ({
-      //       answerContent: "Salad",
-      //       points: 2
-      //   }),
-      //   answerD: new Answer ({
-      //       answerContent: "Hamburger",
-      //       points: 3
-      //   })
-      // }),
-      // new Question ({
-      //   questionContent: "Which element would you want to be able to bend?",
-      //   answerA: new Answer ({
-      //       answerContent: "Air",
-      //       points: 0
-      //   }),
-      //   answerB: new Answer ({
-      //       answerContent: "Water",
-      //       points: 1
-      //   }),
-      //   answerC: new Answer ({
-      //       answerContent: "Earth",
-      //       points: 2
-      //   }),
-      //   answerD: new Answer ({
-      //       answerContent: "Fire",
-      //       points: 3
-      //   })
-      // }),
-      // new Question ({
-      //   questionContent: "Into which house would you hope to be sorted?",
-      //   answerA: new Answer ({
-      //       answerContent: "Hufflepuff",
-      //       points: 0
-      //   }),
-      //   answerB: new Answer ({
-      //       answerContent: "Ravenclaw",
-      //       points: 1
-      //   }),
-      //   answerC: new Answer ({
-      //       answerContent: "Slytherin",
-      //       points: 2
-      //   }),
-      //   answerD: new Answer ({
-      //       answerContent: "Gryffindor",
-      //       points: 3
-      //   })
-      // }),
-      // new Question ({
-      //   questionContent: "Who is your favorite Marvel superhero?",
-      //   answerA: new Answer ({
-      //       answerContent: "Captain America",
-      //       points: 0
-      //   }),
-      //   answerB: new Answer ({
-      //       answerContent: "Iron Man",
-      //       points: 1
-      //   }),
-      //   answerC: new Answer ({
-      //       answerContent: "Loki",
-      //       points: 2
-      //   }),
-      //   answerD: new Answer ({
-      //       answerContent: "Thor",
-      //       points: 3
-      //   })
-      // })
+      new Question ({
+        questionContent: "What is your favorite fast food item?",
+        answerA: {
+            answerContent: "French fries",
+            points: 0
+        },
+        answerB: {
+            answerContent: "Soda",
+            points: 1
+        },
+        answerC: {
+            answerContent: "Salad",
+            points: 2
+        },
+        answerD: {
+            answerContent: "Hamburger",
+            points: 3
+        }
+      }),
+      new Question ({
+        questionContent: "Which element would you want to be able to bend?",
+        answerA: {
+            answerContent: "Air",
+            points: 0
+        },
+        answerB: {
+            answerContent: "Water",
+            points: 1
+        },
+        answerC: {
+            answerContent: "Earth",
+            points: 2
+        },
+        answerD: {
+            answerContent: "Fire",
+            points: 3
+        }
+      }),
+      new Question ({
+        questionContent: "Into which house would you hope to be sorted?",
+        answerA: {
+            answerContent: "Hufflepuff",
+            points: 0
+        },
+        answerB: {
+            answerContent: "Ravenclaw",
+            points: 1
+        },
+        answerC: {
+            answerContent: "Slytherin",
+            points: 2
+        },
+        answerD: {
+            answerContent: "Gryffindor",
+            points: 3
+        }
+      }),
+      new Question ({
+        questionContent: "Who is your favorite Marvel superhero?",
+        answerA: {
+            answerContent: "Captain America",
+            points: 0
+        },
+        answerB: {
+            answerContent: "Iron Man",
+            points: 1
+        },
+        answerC: {
+            answerContent: "Loki",
+            points: 2
+        },
+        answerD: {
+            answerContent: "Thor",
+            points: 3
+        }
+      })
     ]
   });
   console.log(survey);

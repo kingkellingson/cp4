@@ -41,6 +41,18 @@ export default {
     async generateSurvey(){
         await axios.post("/api/survey/newSurvey");
       },
+    async getSurveys() {
+      try {
+        console.log("Trying to get surveys"); 
+        let response = await axios.get('/api/survey/getSurveys');
+        this.surveys = response.data; 
+        console.log(this.surveys); 
+        return true; 
+      } catch (error) {
+        console.log(error); 
+        this.error = error.response.data.message;
+      }
+    },
     // async clearPhotos(){
     //     await axios.delete("/api/photos/cp");
     //   },
