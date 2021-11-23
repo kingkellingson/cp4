@@ -25,8 +25,9 @@
         <button @click="incrementQuestionNum" class="ui icon button right-arrow" id="next-data">
             <i class="ui icon arrow right"></i>
         </button>
-        <button class="ui icon button" disabled id="review-data">
-            Review Data
+        <br>
+        <button @click="submitSurvey" v-if="isLastQuestion" class="ui icon button" id="review-data">
+            Submit
         </button>
 
     </div>
@@ -55,6 +56,11 @@ export default {
     this.getSurveys();
     
   },
+  computed:{
+    isLastQuestion () {
+      return this.questionNum == this.totalQuestions-1;
+    }
+  },
   methods: {
     incrementQuestionNum () {
       console.log("You clicked next!");
@@ -74,6 +80,11 @@ export default {
       console.log(points); 
       this.answersPoints[this.questionNum] = points; 
       console.log(this.answersPoints); 
+    },
+    submitSurvey() {
+      var sum = this.answersPoints.reduce(function(a,b){return a + b;}, 0)
+      console.log("Sum is: ", sum)
+      return sum;
     },
     async getSurveys() {
       try {
@@ -243,7 +254,7 @@ body {
 }
 
 #review-data {
-   display: none; 
+  margin-top: 10px;
 }
 
 @media screen and (min-width: 1200px) {
