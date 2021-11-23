@@ -4,7 +4,10 @@
   <div class="survey" v-for="survey in surveys" :key="survey.id">
     <div class="question" v-for="question in survey.questions" :key="question.id">
       <h2>{{question.questionContent}}</h2>
-      <h2>{{question.answerA.answerContent}}</h2>
+      <h2>{{question.answerA}}</h2>
+      <h2>{{question}}</h2>
+      <h2>{{getAnswer(question.answerA)}}</h2>
+      <h2>{{answer}}</h2>
     </div>
   </div>
 </div>
@@ -20,6 +23,7 @@ export default {
     return {
       id: '',
       surveys: [],
+      answer: null, 
       firstName: '',
       lastName: '',
       username: '',
@@ -39,12 +43,24 @@ export default {
         console.log("Trying to get surveys"); 
         let response = await axios.get('/api/survey/getSurveys');
         this.surveys = response.data; 
+        console.log(response.data[0].questions[0].answerA); 
         console.log(this.surveys); 
         return true; 
       } catch (error) {
         console.log(error); 
         this.error = error.response.data.message;
-        this.$root.$data.user = null;
+      }
+    },
+    async getAnswer(answerID) {
+      try {
+        console.log("Trying to get answers");
+        let response = await axios.get("/api/survey/" + answerID);
+        this.answer = response.data; 
+        console.log(response.data); 
+        return true;
+      } catch (error) {
+        console.log(error); 
+        this.error = error.response.data.message;
       }
     },
     async register() {

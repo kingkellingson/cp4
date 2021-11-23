@@ -2,30 +2,32 @@ const express = require("express");
 const mongoose = require('mongoose');
 
 const router = express.Router();
+const answer = require("./answer.js");
+const Answer = answer.model; 
 
-const questionSchema = new mongoose.Schema({
+const question = {
   questionContent: String,
   answerA: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Answer'
+    answerContent: String,
+    points: Number,
   },
   answerB: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Answer'
+    answerContent: String,
+    points: Number,
   },
   answerC: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Answer'
+    answerContent: String,
+    points: Number,
   },
   answerD: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Answer'
+    answerContent: String,
+    points: Number,
   },
-});
+};
 
 
 
-const Question = mongoose.model('Question', questionSchema);
+const Question = mongoose.model('Question', question);
 
 module.exports = {
     routes: router,

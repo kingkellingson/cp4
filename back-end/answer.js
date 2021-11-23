@@ -2,15 +2,16 @@ const mongoose = require('mongoose');
 const express = require("express");
 const router = express.Router();
 
-const answerSchema = new mongoose.Schema({
-    answerContent: String, 
-    points: Number,
-  });
+//Make it a new javascript object
+// const answerSchema = new ({
+//     answerContent: String, 
+//     points: Number,
+// });
   
-  const Answer = mongoose.model('Answer', answerSchema);
+//   const Answer = mongoose.model('Answer', answerSchema);
 
   
-module.exports = {
-    routes: router,
-    model: Answer,
-  };
+// module.exports = {
+//     routes: router,
+//     model: Answer,
+//   };
