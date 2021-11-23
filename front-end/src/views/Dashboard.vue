@@ -1,19 +1,19 @@
 <template>
 <div class="dashboard">
   <MyPhotos v-if="user" />
-  <Login v-else />
+  <Survey v-else />
 </div>
 </template>
 
 <script>
 import MyPhotos from '@/components/MyPhotos.vue';
-import Login from '@/components/Login.vue';
+import Survey from '@/components/SurveyLayout.vue';
 import axios from 'axios';
 export default {
   name: 'dashboard',
   components: {
     MyPhotos,
-    Login,
+    Survey,
   },
   async created() {
     try {
