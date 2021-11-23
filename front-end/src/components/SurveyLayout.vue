@@ -1,20 +1,7 @@
 <template>
 
 <div class="surveyHolder">
-  <div class="survey" v-for="survey in surveys" :key="survey.id">
-    <h2></h2>
-    <div class="question" v-for="question in survey.questions" :key="question.id">
-      <h2>{{question.questionContent}}</h2>
-      <div class="answer">
-        <h2>{{question.answerA.answerContent}}</h2>
-        
-      </div>
-      <div class="answer"><h2>{{question.answerB.answerContent}}</h2></div>
-      <div class="answer"><h2>{{question.answerC.answerContent}}</h2></div>
-      <div class="answer"><h2>{{question.answerC.answerContent}}</h2></div>
-    </div>
-
-  </div>
+  
   <div class="ui container" v-for="survey in surveys" :key="survey.id">
     <div class="main-container">
         <div class="left-container">
@@ -23,19 +10,19 @@
         </div>
 
         <div class="right-container">
-            <button class="ui button survey-button" id="answer1">{{survey.questions[questionNum].answerA.answerContent}}</button>
-            <button class="ui button survey-button" id="answer2" >{{survey.questions[questionNum].answerB.answerContent}}</button>
-            <button class="ui button survey-button" id="answer3">{{survey.questions[questionNum].answerC.answerContent}}</button>
-            <button class="ui button survey-button" id="answer4">{{survey.questions[questionNum].answerD.answerContent}}</button>
+            <button @click="updatePoints(survey.questions[questionNum].answerA.points)" class="ui button survey-button" id="answer1">{{survey.questions[questionNum].answerA.answerContent}}</button>
+            <button @click="updatePoints(survey.questions[questionNum].answerB.points)" class="ui button survey-button" id="answer2" >{{survey.questions[questionNum].answerB.answerContent}}</button>
+            <button @click="updatePoints(survey.questions[questionNum].answerC.points)" class="ui button survey-button" id="answer3">{{survey.questions[questionNum].answerC.answerContent}}</button>
+            <button @click="updatePoints(survey.questions[questionNum].answerD.points)" class="ui button survey-button" id="answer4">{{survey.questions[questionNum].answerD.answerContent}}</button>
             <!-- <button class="ui button survey-button" id="answer5">{{survey.questions[questionNum].answerA.answerContent}}</button> -->
         </div>
     </div>
     <br>
     <div class="navigation-controllers">
-        <button class="ui icon button left-arrow" id="prev-data">
+        <button @click="decrementQuestionNum" class="ui icon button left-arrow" id="prev-data">
             <i class="ui icon arrow left"></i>
         </button>
-        <button class="ui icon button right-arrow" disabled id="next-data">
+        <button @click="incrementQuestionNum" class="ui icon button right-arrow" id="next-data">
             <i class="ui icon arrow right"></i>
         </button>
         <button class="ui icon button" disabled id="review-data">
@@ -53,34 +40,52 @@
 import axios from 'axios';
 export default {
   name: 'HomePage',
+  
   data() {
     return {
       questionNum: 0,
+      totalQuestions: 0, 
       id: '',
       surveys: [],
       answer: null, 
-      firstName: '',
-      lastName: '',
-      username: '',
-      password: '',
-      usernameLogin: '',
-      passwordLogin: '',
-      error: '',
-      errorLogin: '',
+      answersPoints: [],
     }//test
   },
   created() {
-    this.getSurveys(); 
+    this.getSurveys();
+    
   },
   methods: {
     incrementQuestionNum () {
-      this.questionNum++;
+      console.log("You clicked next!");
+      console.log(this.totalQuestions); 
+      if (this.questionNum < this.totalQuestions - 1) {
+        this.questionNum++;
+      }
+    },
+    decrementQuestionNum () {
+      console.log("You clicked previous!"); 
+      if (this.questionNum > 0) {
+        this.questionNum--; 
+      }
+      
+    },
+    updatePoints (points) {
+      console.log(points); 
+      this.answersPoints[this.questionNum] = points; 
+      console.log(this.answersPoints); 
     },
     async getSurveys() {
       try {
         console.log("Trying to get surveys"); 
         let response = await axios.get('/api/survey/getSurveys');
         this.surveys = response.data; 
+        this.totalQuestions = response.data[0].questions.length; 
+        for (let i = 0; i < response.data[0].questions.length; i++) {
+          this.answersPoints.push(0); 
+        }
+        console.log("Answers Points"); 
+        console.log(this.answersPoints);
         console.log(response.data[0].questions[0].answerA); 
         console.log(this.surveys); 
         return true; 
