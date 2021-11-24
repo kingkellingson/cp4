@@ -73,13 +73,15 @@ export default {
     },
     async editSurvey(item) {
       try {
-        console.log("Getting one survey");
-        let response = await axios.get('/api/survey/getSurvey/' + item._id);
-        this.chosenSurvey = response.data; 
-        console.log(response.data); 
+        await axios.put("/api/survey/edit/" + item._id, {
+          //put new info here, like this
+          //title: newtitle,
+        });
+        //reload surveys
+        this.getSurveys();
+        return true;
       } catch (error) {
-        console.log(error); 
-        this.error = error.response.data.message; 
+        console.log(error);
       }
     },
     async deleteSurvey(item) {
