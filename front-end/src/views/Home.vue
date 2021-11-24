@@ -15,17 +15,13 @@
     </div>
     <div class="createSurvey" v-if="createSurvey">
       <hr>
-      <form>
+      <form id="createSurveyForm">
         <label for="title">Survey Title:  </label>
         <input type="text" id="title" name="title" value="Practice Survey"><br><br>
-        <button @click="questions.push(0)" class="ui button" id="survey">Add Question</button> <br><br>
-        <div class="addQuestion" v-if="questions.length > 0">
-          <div class="questions" v-for="question in questions" :key="question.id">
-            <input type="text" id="qContent" name="qContent" value="What's your favorite color?"><br><br>
-          </div>
-        </div>
-        <button @click="postSurvey(survey)" class="ui button" id="survey">Submit</button>
+        <button @click="addQuestion" type="button" class="ui button" id="survey">Add Question</button> <br><br>
+        
       </form>
+      <button @click="postSurvey(survey)" class="ui button" id="survey">Submit</button>
     </div>
   </div>
 
@@ -56,6 +52,38 @@ export default {
     },
   },
   methods: {
+    addQuestion() {
+      let form = document.getElementById("createSurveyForm");
+      // Create an input element for Full Name
+      var qiLabel = document.createElement("label"); 
+      qiLabel.innerText = "Question: "; 
+      var qi = document.createElement("input");
+      qi.setAttribute("type", "text");
+      qi.setAttribute("name", "questionContent");
+      qi.setAttribute("id", "questionContent");
+      qi.setAttribute("size", 50);
+      qi.setAttribute("placeholder", "What's your favorite color?");
+
+      form.appendChild(qiLabel); 
+      form.appendChild(qi);
+      document.getElementById("questionContent").style.marginBottom = "20px";
+      let options = ["A", "B", "C", "D"];
+      for (let i = 0; i < options.length; i++) {
+        var answerLabel = document.createElement("label");
+        answerLabel.innerText = "Answer " + options[i]; 
+        var ai = document.createElement("input");
+        ai.setAttribute("type", "text");
+        ai.setAttribute("name", "answer" + options[i]);
+        ai.setAttribute("id", "answer" + options[i]);
+        ai.setAttribute("size", 50); 
+        ai.setAttribute("placeholder", "Red"); 
+        form.appendChild(answerLabel);
+        form.appendChild(ai); 
+        document.getElementById("answer" + options[i]).style.marginBottom = "20px";
+      }
+      // Append the full name input to the form
+      
+    }, 
     async generateSurvey(){
         await axios.post("/api/survey/newSurvey");
       },
@@ -152,7 +180,7 @@ form {
   padding: 10px; 
 }
 
-form label {
+label {
   margin-right: 10px; 
 }
 </style>
