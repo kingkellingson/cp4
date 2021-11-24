@@ -15,7 +15,49 @@ const surveySchema = new mongoose.Schema({
   
   const Survey = mongoose.model('Survey', surveySchema);
 
-
+router.post('/create', async (req, res) => {
+  console.log("Posting new survey"); 
+  let questions = []; 
+  console.log(req.body);
+   
+  for (let i = 0; i < req.body.questions.length; i++) {
+    let question = new Question ({
+      questionContent: req.body.questions[i],
+      answerA: {
+        answerContent: req.body.answersA[i],
+        points: 0
+      },
+      answerB: {
+        answerContent: req.body.answersB[i],
+        points: 1
+      },
+      answerC: {
+        answerContent: req.body.answersC[i],
+        points: 2
+      },
+      answerD: {
+        answerContent: req.body.answersD[i],
+        points: 3
+      }
+    }); 
+    questions.push(question); 
+  }
+  console.log(questions); 
+  const survey = new Survey ({
+    title: req.body.title,
+    questions: questions,
+    results: req.body.results,
+  });
+  console.log(survey);
+  try {
+    await survey.save();
+    res.send(survey);
+  }
+  catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+})
 
 // Add Survey to Database
 router.post('/newSurvey', async (req, res) => {
