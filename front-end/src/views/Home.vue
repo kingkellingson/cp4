@@ -18,9 +18,9 @@
       <form id="createSurveyForm">
         <label for="title">Survey Title:  </label>
         <input type="text" id="title" name="title" value="Practice Survey"><br><br>
-        <button @click="addQuestion" type="button" class="ui button" id="survey">Add Question</button> <br><br>
         
       </form>
+      <button @click="addQuestion" type="button" class="ui button" id="addQ">Add Question</button> <br><br>
       <button @click="postSurvey(survey)" class="ui button" id="survey">Submit</button>
     </div>
   </div>
@@ -40,6 +40,7 @@ export default {
       error: '',
       createSurvey: false,
       questions: [],
+      questionsNum: 0,
     }
   },
   created() {
@@ -52,38 +53,7 @@ export default {
     },
   },
   methods: {
-    addQuestion() {
-      let form = document.getElementById("createSurveyForm");
-      // Create an input element for Full Name
-      var qiLabel = document.createElement("label"); 
-      qiLabel.innerText = "Question: "; 
-      var qi = document.createElement("input");
-      qi.setAttribute("type", "text");
-      qi.setAttribute("name", "questionContent");
-      qi.setAttribute("id", "questionContent");
-      qi.setAttribute("size", 50);
-      qi.setAttribute("placeholder", "What's your favorite color?");
-
-      form.appendChild(qiLabel); 
-      form.appendChild(qi);
-      document.getElementById("questionContent").style.marginBottom = "20px";
-      let options = ["A", "B", "C", "D"];
-      for (let i = 0; i < options.length; i++) {
-        var answerLabel = document.createElement("label");
-        answerLabel.innerText = "Answer " + options[i]; 
-        var ai = document.createElement("input");
-        ai.setAttribute("type", "text");
-        ai.setAttribute("name", "answer" + options[i]);
-        ai.setAttribute("id", "answer" + options[i]);
-        ai.setAttribute("size", 50); 
-        ai.setAttribute("placeholder", "Red"); 
-        form.appendChild(answerLabel);
-        form.appendChild(ai); 
-        document.getElementById("answer" + options[i]).style.marginBottom = "20px";
-      }
-      // Append the full name input to the form
-      
-    }, 
+    
     async generateSurvey(){
         await axios.post("/api/survey/newSurvey");
       },
@@ -122,6 +92,45 @@ export default {
         console.log(error);
       }
     },
+    async postSurvey(item) {
+      console.log("In post survey"); 
+      console.log(item); 
+
+    },
+    addQuestion() { 
+      this.questionsNum++; 
+      let form = document.getElementById("createSurveyForm");
+      // Create an input element for Full Name
+      var qiLabel = document.createElement("label");
+      qiLabel.setAttribute("id", "questionLabel" + this.questionsNum);  
+      qiLabel.innerText = "Question " + this.questionsNum + ": "; 
+      var qi = document.createElement("input");
+      qi.setAttribute("type", "text");
+      qi.setAttribute("name", "questionContent");
+      qi.setAttribute("id", "questionContent" + this.questionsNum);
+      qi.setAttribute("size", 50);
+      qi.setAttribute("placeholder", "What's your favorite color?");
+
+      form.appendChild(qiLabel); 
+      form.appendChild(qi);
+      document.getElementById("questionLabel" + this.questionsNum).style.marginTop = "20px";
+      document.getElementById("questionContent" + this.questionsNum).style.marginBottom = "20px";
+      let options = ["A", "B", "C", "D"];
+      for (let i = 0; i < options.length; i++) {
+        var answerLabel = document.createElement("label");
+        answerLabel.innerText = "Answer " + options[i]; 
+        var ai = document.createElement("input");
+        ai.setAttribute("type", "text");
+        ai.setAttribute("name", "answer" + options[i]);
+        ai.setAttribute("id", "answer" + options[i] + this.questionsNum);
+        ai.setAttribute("size", 50); 
+        ai.setAttribute("placeholder", "Red"); 
+        form.appendChild(answerLabel);
+        form.appendChild(ai); 
+        document.getElementById("answer" + options[i] + this.questionsNum).style.marginBottom = "20px";
+      }
+      
+    }, 
   }
 }
 </script>
