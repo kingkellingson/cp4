@@ -95,7 +95,7 @@ export default {
     async postSurvey(item) {
       console.log("In post survey"); 
       console.log(item); 
-
+      
     },
     addQuestion() { 
       this.questionsNum++; 
