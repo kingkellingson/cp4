@@ -2,6 +2,9 @@
 <div class="home">
   <div class="menu">
     <button @click="generateSurvey" class="pure-button space-right">New Survey</button>
+    <br>
+    <button @click="deleteAll" class="ui button" id="survey">Delete All My Surveys</button>
+    <br>
     <p>Welcome! Choose a survey to edit or create a new survey.</p>
     <div class="suggestions" v-if="suggestions.length > 0">
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
@@ -71,26 +74,23 @@ export default {
         this.error = error.response.data.message;
       }
     },
-    async editSurvey(item) {
+    async deleteAll() {
       try {
-        await axios.put("/api/survey/edit/" + item._id, {
-          //put new info here, like this
-          //title: newtitle,
-        });
-        //reload surveys
+        console.log("All Delete called");
+        await axios.delete("/api/survey/delete");
+        console.log("All Delete almost finished"); 
         this.getSurveys();
+        console.log("All Delete successful"); 
         return true;
       } catch (error) {
+        console.log("Error in all delete!"); 
         console.log(error);
       }
     },
     async deleteSurvey(item) {
       try {
-        console.log("Delete called");
         await axios.delete("/api/survey/delete/" + item._id);
-        console.log("Delete almost finished"); 
         this.getSurveys();
-        console.log("Delete successful"); 
         return true;
       } catch (error) {
         console.log("Error in delete!"); 
@@ -107,7 +107,7 @@ export default {
       let answersD = [];
       let results = [];
       for (let i = 1; i < this.questionsNum + 1; i++) {
-        console.log(document.getElementById("questionContent" + i).value);
+        console.log("Look here: " + document.getElementById("questionContent" + i).value);
         questionsContent.push(document.getElementById("questionContent" + i).value);
         answersA.push(document.getElementById("answerA" + i).value);
         answersB.push(document.getElementById("answerB" + i).value);
@@ -118,6 +118,7 @@ export default {
         results.push(document.getElementById("resultContent" + i).value);
       }
       try {
+        console.log("before"); 
         await axios.post('/api/survey/create', {
           title: newTitle,
           questions: questionsContent,
@@ -128,6 +129,7 @@ export default {
           results: results,
         });
         this.getSurveys();
+        this.createSurvey = false;
       } catch (error) {
         console.log("postSurvey error");
         console.log(error);
@@ -152,6 +154,7 @@ export default {
       document.getElementById("questionLabel" + this.questionsNum).style.marginTop = "20px";
       document.getElementById("questionContent" + this.questionsNum).style.marginBottom = "20px";
       let options = ["A", "B", "C", "D"];
+      let placeholders = ["Red", "Yellow", "Blue", "Green"];
       for (let i = 0; i < options.length; i++) {
         var answerLabel = document.createElement("label");
         answerLabel.innerText = "Answer " + options[i]; 
@@ -160,7 +163,7 @@ export default {
         ai.setAttribute("name", "answer" + options[i]);
         ai.setAttribute("id", "answer" + options[i] + this.questionsNum);
         ai.setAttribute("size", 50); 
-        ai.setAttribute("placeholder", "Red"); 
+        ai.setAttribute("placeholder", placeholders[i]); 
         form.appendChild(answerLabel);
         form.appendChild(ai); 
         document.getElementById("answer" + options[i] + this.questionsNum).style.marginBottom = "20px";
@@ -183,7 +186,111 @@ export default {
       form.appendChild(ri);
       document.getElementById("resultLabel" + this.resultsNum).style.marginTop = "20px";
       document.getElementById("resultContent" + this.resultsNum).style.marginBottom = "20px";
-    }
+    },
+    async putSurvey() {
+      console.log("In post survey"); 
+      let newTitle = document.getElementById("title").value;
+      let questionsContent = [];
+      let answersA = [];
+      let answersB = [];
+      let answersC = [];
+      let answersD = [];
+      let results = [];
+      for (let i = 1; i < this.questionsNum + 1; i++) {
+        console.log("Look here: " + document.getElementById("questionContent" + i).value);
+        questionsContent.push(document.getElementById("questionContent" + i).value);
+        answersA.push(document.getElementById("answerA" + i).value);
+        answersB.push(document.getElementById("answerB" + i).value);
+        answersC.push(document.getElementById("answerC" + i).value);
+        answersD.push(document.getElementById("answerD" + i).value);
+      }
+      for (let i = 1; i < this.resultsNum + 1; i++) {
+        results.push(document.getElementById("resultContent" + i).value);
+      }
+      try {
+        console.log("before"); 
+        await axios.post('/api/survey/create', {
+          title: newTitle,
+          questions: questionsContent,
+          answersA: answersA,
+          answersB: answersB,
+          answersC: answersC,
+          answersD: answersD,
+          results: results,
+        });
+        this.getSurveys();
+        this.createSurvey = false;
+      } catch (error) {
+        console.log("postSurvey error");
+        console.log(error);
+      }
+    },
+    addQuestionToEdit(item) { 
+      this.questionsNum++; 
+      let form = document.getElementById("createSurveyForm");
+      // Create an input element for Full Name
+      var qiLabel = document.createElement("label");
+      qiLabel.setAttribute("id", "questionLabel" + this.questionsNum);  
+      qiLabel.innerText = "Question " + this.questionsNum + ": "; 
+      var qi = document.createElement("input");
+      qi.setAttribute("type", "text");
+      qi.setAttribute("name", "questionContent");
+      qi.setAttribute("id", "questionContent" + this.questionsNum);
+      qi.setAttribute("size", 50);
+      qi.setAttribute("placeholder", "What's your favorite color?");
+
+      form.appendChild(qiLabel); 
+      form.appendChild(qi);
+      document.getElementById("questionLabel" + this.questionsNum).style.marginTop = "20px";
+      document.getElementById("questionContent" + this.questionsNum).style.marginBottom = "20px";
+      let options = ["A", "B", "C", "D"];
+      //let placeholders = ["Red", "Yellow", "Blue", "Green"];
+      for (let i = 0; i < options.length; i++) {
+        var answerLabel = document.createElement("label");
+        answerLabel.innerText = "Answer " + options[i]; 
+        var ai = document.createElement("input");
+        ai.setAttribute("type", "text");
+        ai.setAttribute("name", "answer" + options[i]);
+        ai.setAttribute("id", "answer" + options[i] + this.questionsNum);
+        ai.setAttribute("size", 50); 
+        ai.setAttribute("value", item.data.questions[0].answerA); 
+        form.appendChild(answerLabel);
+        form.appendChild(ai); 
+        document.getElementById("answer" + options[i] + this.questionsNum).style.marginBottom = "20px";
+      }
+    }, 
+    addResultToEdit(item) {
+      this.resultsNum++;
+      let form = document.getElementById("createSurveyFormPart2");
+      // Create an input element for Full Name
+      var resultLabel = document.createElement("label");
+      resultLabel.setAttribute("id", "resultLabel" + this.resultsNum);  
+      resultLabel.innerText = "Result " + this.resultsNum + ": "; 
+      var ri = document.createElement("input");
+      ri.setAttribute("type", "text");
+      ri.setAttribute("name", "resultContent");
+      ri.setAttribute("id", "resultContent" + this.resultsNum);
+      ri.setAttribute("size", 50);
+      ri.setAttribute("value", item.data.results[0]);
+      form.appendChild(resultLabel); 
+      form.appendChild(ri);
+      document.getElementById("resultLabel" + this.resultsNum).style.marginTop = "20px";
+      document.getElementById("resultContent" + this.resultsNum).style.marginBottom = "20px";
+    },
+    async editSurvey(item) {
+      try {
+        this.createSurvey = true;
+        let surveyToEdit = await axios.get("/api/survey/getSurvey/" + item._id);
+        console.log (surveyToEdit)
+        this.addQuestionToEdit(surveyToEdit);
+        this.addResultToEdit(surveyToEdit);
+        //reload surveys
+        this.getSurveys();
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   }
 }
 </script>

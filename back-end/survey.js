@@ -220,22 +220,36 @@ router.get('/getSurvey/:id', async (req, res) => {
       console.log("Answer is: "); 
       console.log(answer); 
       res.send(answer); 
+      res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
 
-app.put('/edit/:id', async (req, res) => {
+// app.put('/edit/:id', async (req, res) => {
+//   try {
+//     let survey = await Survey.findOne({
+//       _id: req.params.id
+//     });
+//     //Edit the survey here, like this
+//     //survey.title = req.body.title; 
+//     //Save the edited survey.
+//     await survey.save(); 
+//   } catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// });
+
+
+router.delete('/delete', async (req, res) => {
   try {
-    let survey = await Survey.findOne({
-      _id: req.params.id
-    });
-    //Edit the survey here, like this
-    //survey.title = req.body.title; 
-    //Save the edited survey.
-    await survey.save(); 
-  } catch (error) {
+    console.log("In All Delete");
+    await Survey.deleteMany({});
+    res.sendStatus(200);
+  }
+  catch {
     console.log(error);
     res.sendStatus(500);
   }
@@ -243,9 +257,11 @@ app.put('/edit/:id', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   try {
+    // console.log("In Delete with id: ", req.params.id);
     await Survey.deleteOne({
       _id: req.params.id
     });
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
