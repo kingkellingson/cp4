@@ -1,11 +1,8 @@
 <template>
 <div class="home">
   <div class="menu">
-    <button @click="generateSurvey" class="pure-button space-right">New Survey</button>
+    <h1>Welcome! Choose a survey to edit or create a new survey.</h1>
     <br>
-    <button @click="deleteAll" class="ui button" id="survey">Delete All My Surveys</button>
-    <br>
-    <p>Welcome! Choose a survey to edit or create a new survey.</p>
     <div class="suggestions" v-if="suggestions.length > 0">
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
       <h2>{{survey.title}}</h2>
@@ -13,9 +10,12 @@
       <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
     </div>
     </div>
+    <button @click="generateSurvey" class="ui button">Generate Example Survey</button>
     <div class="createSurveyChoice">
       <button @click="createSurvey = true" class="ui button" id="survey">Create New Survey</button>
     </div>
+    <button @click="deleteAll" class="ui button" id="survey">Delete All My Surveys</button>
+    
     <div class="createSurvey" v-if="createSurvey">
       <hr>
       <form id="createSurveyForm">
@@ -151,11 +151,16 @@ export default {
         this.getSurveys();
         this.createSurvey = false;
         this.editSurveyBool = false;
+        this.questionsNum = 0;
+        this.resultsNum = 0; 
       } catch (error) {
         console.log("postSurvey error");
         console.log(error);
       }
+
+      
     },
+
     addQuestion() { 
       this.questionsNum++; 
       let form = document.getElementById("createSurveyForm");
@@ -171,7 +176,9 @@ export default {
       qi.setAttribute("placeholder", "What's your favorite color?");
 
       form.appendChild(qiLabel); 
+      form.appendChild(document.createElement("br")); 
       form.appendChild(qi);
+      form.appendChild(document.createElement("br")); 
       document.getElementById("questionLabel" + this.questionsNum).style.marginTop = "20px";
       document.getElementById("questionContent" + this.questionsNum).style.marginBottom = "20px";
       let options = ["A", "B", "C", "D"];
@@ -186,7 +193,9 @@ export default {
         ai.setAttribute("size", 50); 
         ai.setAttribute("placeholder", placeholders[i]); 
         form.appendChild(answerLabel);
+        form.appendChild(document.createElement("br")); 
         form.appendChild(ai); 
+        form.appendChild(document.createElement("br")); 
         document.getElementById("answer" + options[i] + this.questionsNum).style.marginBottom = "20px";
       }
     }, 
@@ -204,10 +213,13 @@ export default {
       ri.setAttribute("size", 50);
       ri.setAttribute("placeholder", "Your spirit animal is a fox.");
       form.appendChild(resultLabel); 
+      form.appendChild(document.createElement("br")); 
       form.appendChild(ri);
+      form.appendChild(document.createElement("br")); 
       document.getElementById("resultLabel" + this.resultsNum).style.marginTop = "20px";
       document.getElementById("resultContent" + this.resultsNum).style.marginBottom = "20px";
     },
+
     addQuestionToEdit(item) {  
       let form = document.getElementById("createSurveyForm");
       // Create an input element for Full Name
@@ -224,7 +236,9 @@ export default {
         qi.setAttribute("size", 50);
         qi.setAttribute("value", item.data.questions[i].questionContent);
         form.appendChild(qiLabel); 
+        form.appendChild(document.createElement("br")); 
         form.appendChild(qi);
+        form.appendChild(document.createElement("br")); 
         document.getElementById("questionLabel" + (i+1)).style.marginTop = "20px";
         document.getElementById("questionContent" + (i+1)).style.marginBottom = "20px";
         //this is for the individual answers
@@ -238,18 +252,16 @@ export default {
           ai.setAttribute("name", "answer" + options[j]);
           ai.setAttribute("id", "answer" + options[j] + (i+1));
           ai.setAttribute("size", 50); 
-          ai.setAttribute("value", item.data.questions[0]["answer" + options[j]].answerContent); 
+          ai.setAttribute("value", item.data.questions[i]["answer" + options[j]].answerContent); 
           form.appendChild(answerLabel);
+          form.appendChild(document.createElement("br")); 
           form.appendChild(ai); 
+          form.appendChild(document.createElement("br")); 
           document.getElementById("answer" + options[j] + (i+1)).style.marginBottom = "20px";
         }
       }
-      
-
-
-
-      
     }, 
+
     addResultToEdit(item) {
       let form = document.getElementById("createSurveyFormPart2");
       // Create an input element for Full Name
@@ -265,7 +277,9 @@ export default {
         ri.setAttribute("size", 50);
         ri.setAttribute("value", item.data.results[i]);
         form.appendChild(resultLabel); 
+        form.appendChild(document.createElement("br")); 
         form.appendChild(ri);
+        form.appendChild(document.createElement("br")); 
         document.getElementById("resultLabel" + (i+1)).style.marginTop = "20px";
         document.getElementById("resultContent" + (i+1)).style.marginBottom = "20px";
       }
@@ -327,6 +341,16 @@ export default {
   margin: 10px; 
   margin-top: 20px; 
   margin-bottom: 20px; 
+}
+
+h1 {
+  color: black;
+  font-size: 20px;
+}
+
+button {
+  margin-top: 15px; 
+  margin-bottom: 15px; 
 }
 
 /* .menu {

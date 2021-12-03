@@ -1,11 +1,13 @@
 <template>
 
 <div class="surveyHolder">
-  <div class="survey-chooser">
+
   <h2>Choose a survey to take:</h2>
+  <div class="survey-chooser">
   <div class="survey-options" v-for="survey in surveys" :key="survey.id">
-    <button @click="chooseSurvey(survey)" class="ui button" id="survey">{{survey.title}}</button>
+    <button @click="chooseSurvey(survey)" class="ui button" id="survey-choice">{{survey.title}}</button>
   </div>
+  <hr>
   </div>
 
   <div class="ui container" v-if="chosenSurvey">
@@ -204,14 +206,29 @@ h1 {
   font-variant: capitalize;
 }
 
+h2 {
+  font-size: 18px; 
+}
+
+
 .surveyHolder {
   padding: 120px;
   /* display: flex; */
   justify-content: center;
 }
 
-.survey {
+.survey-chooser {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px; 
+  justify-content: center; 
+  flex-wrap: wrap; 
+  
+}
+
+#survey-choice {
   text-align: center;
+  margin: 10px; 
 }
 
 .hero form {
