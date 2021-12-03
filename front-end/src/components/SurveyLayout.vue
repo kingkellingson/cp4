@@ -109,8 +109,9 @@ export default {
       //let result = "";
 
       for (let i = 0; i < possibleResults.length; i++) {
-        let upperBound = highestPossible / this.totalQuestions * (i+1); 
-        if (sum < upperBound) {
+        //let upperBound = highestPossible / this.totalQuestions * (i+1); 
+        let upperBound = highestPossible / possibleResults.length * (i+1); 
+        if (sum <= upperBound) {
           this.result = possibleResults[i];
           console.log(this.result); 
           return; 
@@ -231,6 +232,11 @@ h2 {
   margin: 10px; 
 }
 
+.ui.button:focus{
+  background-color:#4ABDAC; 
+  color: black; 
+} 
+
 .hero form {
   font-size: 14px;
 }
@@ -278,7 +284,8 @@ body {
     flex-direction: row;
     border: none;
     border-radius: .28571429rem;
-    box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5;
+    /* box-shadow: 0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5; */
+    box-shadow: 0 1px 3px 0 #4ABDAC, 0 0 0 1px #4ABDAC;
     background: white;
 }
 
@@ -308,6 +315,15 @@ body {
 
 #review-data {
   margin-top: 10px;
+  background-color: #F7B733;
+}
+
+#review-data:hover {
+  background-color: #F7B733;
+}
+
+#review-data:focus {
+  background-color: #FC4A1A;
 }
 
 @media screen and (min-width: 1200px) {

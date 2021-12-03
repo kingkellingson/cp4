@@ -7,15 +7,14 @@
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
       <h2>{{survey.title}}</h2>
       <button @click="editSurvey(survey)" class="ui button" id="survey">Edit</button>
-      <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
+      <button @click="deleteSurvey(survey)" class="ui button" id="survey-delete">Delete</button>
     </div>
     </div>
+    <button @click="deleteAll" class="ui button" id="survey-delete">Delete All My Surveys</button>
     <button @click="generateSurvey" class="ui button">Generate Example Survey</button>
     <div class="createSurveyChoice">
-      <button @click="createSurvey = true" class="ui button" id="survey">Create New Survey</button>
-    </div>
-    <button @click="deleteAll" class="ui button" id="survey">Delete All My Surveys</button>
-    
+      <button @click="createSurvey = true" class="ui button" id="survey-create">Create New Survey</button>
+    </div> 
     <div class="createSurvey" v-if="createSurvey">
       <hr>
       <form id="createSurveyForm">
@@ -153,7 +152,7 @@ export default {
         this.editSurveyBool = false;
         this.questionsNum = 0;
         this.resultsNum = 0; 
-          
+
         this.getSurveys();
       } catch (error) {
         console.log("postSurvey error");
@@ -337,7 +336,6 @@ export default {
   display: flex;
   align-items: left; 
   justify-content: space-between; 
-  padding: 15px; 
 }
 
 .survey-create {
@@ -346,21 +344,27 @@ export default {
   margin-bottom: 20px; 
 }
 
+#survey-create {
+  background-color: #F7B733; 
+}
+
+#survey-delete:hover {
+  background-color: #FC4A1A; 
+}
+
 h1 {
   color: black;
   font-size: 20px;
 }
 
+ .ui.button:focus{
+  background-color:#4ABDAC; 
+  color: black; 
+} 
+
 .ui.button {
-
+  margin: 10px; 
 }
-
-/* .ui.button:hover{
-  background-color:blue; 
-  color: blue;
-} */
-
-
 
 /* .menu {
   display: flex;
