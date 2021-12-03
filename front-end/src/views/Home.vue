@@ -153,7 +153,7 @@ export default {
         this.editSurveyBool = false;
         this.questionsNum = 0;
         this.resultsNum = 0; 
-        
+          
         this.getSurveys();
       } catch (error) {
         console.log("postSurvey error");
