@@ -266,6 +266,7 @@ router.put('/edit/:id', async (req, res) => {
     //survey.title = req.body.title; 
     //Save the edited survey.
     await survey.save(); 
+    res.sendStatus(200); 
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

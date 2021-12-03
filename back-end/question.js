@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require('mongoose');
 
 const router = express.Router();
-const answer = require("./answer.js");
-const Answer = answer.model; 
+//const answer = require("./answer.js");
+//const Answer = answer.model; 
 
 const question = {
   questionContent: String,

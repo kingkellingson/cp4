@@ -6,7 +6,7 @@
     <div class="suggestions" v-if="suggestions.length > 0">
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
       <h2>{{survey.title}}</h2>
-      <button @click="editSurvey(survey)" class="pure-button" id="survey">Edit</button>
+      <button @click="editSurvey(survey)" class="ui button" id="survey">Edit</button>
       <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
     </div>
     </div>
@@ -148,11 +148,13 @@ export default {
           });
         }
         console.log("after axios"); 
-        this.getSurveys();
+        
         this.createSurvey = false;
         this.editSurveyBool = false;
         this.questionsNum = 0;
         this.resultsNum = 0; 
+        
+        this.getSurveys();
       } catch (error) {
         console.log("postSurvey error");
         console.log(error);
@@ -310,6 +312,7 @@ export default {
       }
     },
   }
+
 }
 </script>
 
@@ -348,10 +351,16 @@ h1 {
   font-size: 20px;
 }
 
-button {
-  margin-top: 15px; 
-  margin-bottom: 15px; 
+.ui.button {
+
 }
+
+/* .ui.button:hover{
+  background-color:blue; 
+  color: blue;
+} */
+
+
 
 /* .menu {
   display: flex;
