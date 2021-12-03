@@ -71,6 +71,9 @@ h2 {
   background-color: #277E8E;
 }
 
+.pure-button {
+  background-color: #277E8E;
+}
 
 
 /* Footer  */

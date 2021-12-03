@@ -6,7 +6,7 @@
     <div class="suggestions" v-if="suggestions.length > 0">
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
       <h2>{{survey.title}}</h2>
-      <button @click="editSurvey(survey)" class="ui button" id="survey">Edit</button>
+      <button @click="editSurvey(survey)" class="pure-button" id="survey">Edit</button>
       <button @click="deleteSurvey(survey)" class="ui button" id="survey">Delete</button>
     </div>
     </div>

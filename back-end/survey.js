@@ -4,8 +4,6 @@ const router = express.Router();
 
 const question = require("./question.js");
 const Question = question.model;
-const answer = require("./answer.js");
-const Answer = answer.model; 
 
 const surveySchema = new mongoose.Schema({
     title: String,
