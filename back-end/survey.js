@@ -213,34 +213,66 @@ router.get('/getSurveys', async (req, res) => {
 
 router.get('/getSurvey/:id', async (req, res) => {
   try {
-      console.log("Getting answers back end"); 
+      //console.log("Getting answers back end"); 
       let answer = await Survey.findOne({
         _id: req.params.id
       });
-      console.log("Answer is: "); 
-      console.log(answer); 
+      // console.log("Answer is: "); 
+      // console.log(answer); 
       res.send(answer); 
-      res.sendStatus(200);
+      //res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    //res.sendStatus(500);
+  }
+});
+
+router.put('/edit/:id', async (req, res) => {
+  console.log("in edit function")
+  try {
+    let survey = await Survey.findOne({
+      _id: req.params.id
+    });
+
+    let questions = []; 
+    console.log(req.body);
+      
+    for (let i = 0; i < req.body.questions.length; i++) {
+      let question = new Question ({
+        questionContent: req.body.questions[i],
+        answerA: {
+          answerContent: req.body.answersA[i],
+          points: 0
+        },
+        answerB: {
+          answerContent: req.body.answersB[i],
+          points: 1
+        },
+        answerC: {
+          answerContent: req.body.answersC[i],
+          points: 2
+        },
+        answerD: {
+          answerContent: req.body.answersD[i],
+          points: 3
+        }
+      }); 
+      questions.push(question); 
+    }
+    console.log(questions); 
+    survey.title = req.body.title
+    survey.questions = questions
+    survey.results = req.body.results
+    
+    //Edit the survey here, like this
+    //survey.title = req.body.title; 
+    //Save the edited survey.
+    await survey.save(); 
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 });
-
-// app.put('/edit/:id', async (req, res) => {
-//   try {
-//     let survey = await Survey.findOne({
-//       _id: req.params.id
-//     });
-//     //Edit the survey here, like this
-//     //survey.title = req.body.title; 
-//     //Save the edited survey.
-//     await survey.save(); 
-//   } catch (error) {
-//     console.log(error);
-//     res.sendStatus(500);
-//   }
-// });
 
 
 router.delete('/delete', async (req, res) => {
