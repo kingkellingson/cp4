@@ -61,7 +61,7 @@ router.post('/create', async (req, res) => {
 router.post('/newSurvey', async (req, res) => {
   console.log("Calling Post");
   const survey = new Survey ({
-    title: "Survey 2",
+    title: "**Generated Survey**",
     results: [
       "You are a fun person to be around!",
       "You hate pancakes!", 

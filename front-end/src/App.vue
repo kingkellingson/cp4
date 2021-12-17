@@ -29,6 +29,12 @@ body {
   margin: 0px 200px;
 }
 
+@media screen and (max-width: 1100px) {
+  body {
+    margin: 0px 50px;
+  }
+}
+
 #header {
   /* Semi-circle */
   margin: 0 1em 1em 0;

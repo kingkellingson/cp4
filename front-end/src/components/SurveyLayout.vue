@@ -80,13 +80,14 @@ export default {
   },
   methods: {
     incrementQuestionNum () {
-      console.log("You clicked next!");
-      console.log(this.totalQuestions); 
+      this.result = null;
+      console.log("You clicked next!"); 
       if (this.questionNum < this.totalQuestions - 1) {
         this.questionNum++;
       }
     },
     decrementQuestionNum () {
+      this.result = null;
       console.log("You clicked previous!"); 
       if (this.questionNum > 0) {
         this.questionNum--; 
@@ -94,9 +95,8 @@ export default {
       
     },
     updatePoints (points) {
-      console.log(points); 
-      this.answersPoints[this.questionNum] = points; 
-      console.log(this.answersPoints); 
+      this.result = null; 
+      this.answersPoints[this.questionNum] = points;  
     },
     submitSurvey() {
       var sum = this.answersPoints.reduce(function(a,b){return a + b;}, 0)
@@ -119,6 +119,7 @@ export default {
       }
     },
     async chooseSurvey(item) {
+      this.result = null;
       try {
         console.log("Getting one survey");
         let response = await axios.get('/api/survey/getSurvey/' + item._id);
@@ -216,6 +217,13 @@ h2 {
   padding: 120px;
   /* display: flex; */
   justify-content: center;
+}
+
+@media screen and (max-width: 1100px) {
+  .surveyHolder {
+    padding: 20px;
+    padding-top: 120px;
+  }
 }
 
 .survey-chooser {

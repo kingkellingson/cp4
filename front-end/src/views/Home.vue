@@ -6,7 +6,7 @@
     <div class="suggestions" v-if="suggestions.length > 0">
     <div class="survey-options" v-for="survey in suggestions" :key="survey.id">
       <h2>{{survey.title}}</h2>
-      <button @click="editSurvey(survey)" class="ui button" id="survey">Edit</button>
+      <button @click="toggleEditSurvey(survey)" class="ui button" id="survey">Edit</button>
       <button @click="deleteSurvey(survey)" class="ui button" id="survey-delete">Delete</button>
     </div>
     </div>
@@ -48,6 +48,7 @@ export default {
       questions: [],
       questionsNum: 0,
       resultsNum: 0,
+      lastSurveyEdited: null,
     }
   },
   created() {
@@ -63,6 +64,7 @@ export default {
     
     async generateSurvey(){
         await axios.post("/api/survey/newSurvey");
+        this.getSurveys();
       },
     async getSurveys() {
       try {
@@ -73,6 +75,45 @@ export default {
       } catch (error) {
         console.log(error); 
         this.error = error.response.data.message;
+      }
+    },
+    toggleEditSurvey(item) {
+      if (this.lastSurveyEdited == item._id) {
+        console.log("TRUE")
+        this.postSurvey();
+        this.lastSurveyEdited = null;
+      }
+      else {
+        this.editSurvey(item);
+        this.lastSurveyEdited = item._id;
+      }
+      
+    },
+    async editSurvey(item) {
+      try {
+        this.editSurveyBool = true;
+        this.createSurvey = true;
+        let surveyToEdit = await axios.get("/api/survey/getSurvey/" + item._id);
+        let currentTitle = document.getElementById("title");
+        console.log("current title is: ", currentTitle)
+        let newTitle = surveyToEdit.data.title
+        currentTitle.setAttribute("value", newTitle)
+
+        this.deleteQuestionsToEdit();
+        this.deleteResultsToEdit();
+
+        this.resultsNum = surveyToEdit.data.results.length
+        this.questionsNum = surveyToEdit.data.questions.length
+        this.surveyToEditID = surveyToEdit.data._id
+        console.log (surveyToEdit)
+        this.addQuestionToEdit(surveyToEdit);
+        console.log("Calling add result to edit")
+        this.addResultToEdit(surveyToEdit);
+        //reload surveys
+        this.getSurveys();
+        return true;
+      } catch (error) {
+        console.log(error);
       }
     },
     async deleteAll() {
@@ -237,9 +278,13 @@ export default {
         qi.setAttribute("size", 50);
         qi.setAttribute("value", item.data.questions[i].questionContent);
         form.appendChild(qiLabel); 
-        form.appendChild(document.createElement("br")); 
+        var br1 = document.createElement("br")
+        br1.setAttribute("id", "break" + (i+1) + 1)
+        form.appendChild(br1); 
         form.appendChild(qi);
-        form.appendChild(document.createElement("br")); 
+        var br2 = document.createElement("br")
+        br2.setAttribute("id", "break" + (i+1) + 2)
+        form.appendChild(br2); 
         document.getElementById("questionLabel" + (i+1)).style.marginTop = "20px";
         document.getElementById("questionContent" + (i+1)).style.marginBottom = "20px";
         //this is for the individual answers
@@ -248,6 +293,7 @@ export default {
         for (let j = 0; j < options.length; j++) {
           var answerLabel = document.createElement("label");
           answerLabel.innerText = "Answer " + options[j]; 
+          answerLabel.setAttribute("id", "answerLabel" + options[j] + (i+1));
           var ai = document.createElement("input");
           ai.setAttribute("type", "text");
           ai.setAttribute("name", "answer" + options[j]);
@@ -255,13 +301,48 @@ export default {
           ai.setAttribute("size", 50); 
           ai.setAttribute("value", item.data.questions[i]["answer" + options[j]].answerContent); 
           form.appendChild(answerLabel);
-          form.appendChild(document.createElement("br")); 
+          var brj1 = document.createElement("br")
+          brj1.setAttribute("id", "break" + options[j] + (i+1) + 1)
+          form.appendChild(brj1); 
           form.appendChild(ai); 
-          form.appendChild(document.createElement("br")); 
+          var brj2 = document.createElement("br")
+          brj2.setAttribute("id", "break" + options[j] + (i+1) + 2)
+          form.appendChild(brj2); 
           document.getElementById("answer" + options[j] + (i+1)).style.marginBottom = "20px";
         }
       }
     }, 
+
+    deleteQuestionsToEdit() {  
+      let form = document.getElementById("createSurveyForm");
+      // Create an input element for Full Name
+      for (let i = 0; i < this.questionsNum; ++i) {
+        console.log("index is",i)
+        let qilabelToDelete = document.getElementById("questionLabel"+(i+1));
+        let qiToDelete = document.getElementById("questionContent"+(i+1));
+        let br1ToDelete = document.getElementById("break"+(i+1)+1);
+        let br2ToDelete = document.getElementById("break"+(i+1)+2);
+    
+        form.removeChild(qilabelToDelete);
+        form.removeChild(qiToDelete);
+        form.removeChild(br1ToDelete);
+        form.removeChild(br2ToDelete);
+        //this is for the individual answers
+        let options = ["A", "B", "C", "D"];
+        //let placeholders = ["Red", "Yellow", "Blue", "Green"];
+        for (let j = 0; j < options.length; j++) {
+          let answerLabel = document.getElementById("answerLabel" + options[j] + (i+1));
+          let ai = document.getElementById("answer" + options[j] + (i+1));
+          let brj1ToDelete = document.getElementById("break" + options[j] + (i+1) + 1);
+          let brj2ToDelete = document.getElementById("break" + options[j] + (i+1) + 2);
+          
+          form.removeChild(answerLabel);
+          form.removeChild(ai);
+          form.removeChild(brj1ToDelete);
+          form.removeChild(brj2ToDelete);
+        }
+      }
+    },
 
     addResultToEdit(item) {
       let form = document.getElementById("createSurveyFormPart2");
@@ -278,36 +359,31 @@ export default {
         ri.setAttribute("size", 50);
         ri.setAttribute("value", item.data.results[i]);
         form.appendChild(resultLabel); 
-        form.appendChild(document.createElement("br")); 
+        var rbr1 = document.createElement("br")
+        rbr1.setAttribute("id", "rbreak" + (i+1) + 1)
+        form.appendChild(rbr1);  
         form.appendChild(ri);
-        form.appendChild(document.createElement("br")); 
+        var rbr2 = document.createElement("br")
+        rbr2.setAttribute("id", "rbreak" + (i+1) + 2)
+        form.appendChild(rbr2);   
         document.getElementById("resultLabel" + (i+1)).style.marginTop = "20px";
         document.getElementById("resultContent" + (i+1)).style.marginBottom = "20px";
       }
-
-      
     },
-    async editSurvey(item) {
-      try {
-        this.editSurveyBool = true;
-        this.createSurvey = true;
-        let surveyToEdit = await axios.get("/api/survey/getSurvey/" + item._id);
-        let currentTitle = document.getElementById("title");
-        console.log("current title is: ", currentTitle)
-        let newTitle = surveyToEdit.data.title
-        currentTitle.setAttribute("value", newTitle)
-        this.resultsNum = surveyToEdit.data.results.length
-        this.questionsNum = surveyToEdit.data.questions.length
-        this.surveyToEditID = surveyToEdit.data._id
-        console.log (surveyToEdit)
-        this.addQuestionToEdit(surveyToEdit);
-        console.log("Calling add result to edit")
-        this.addResultToEdit(surveyToEdit);
-        //reload surveys
-        this.getSurveys();
-        return true;
-      } catch (error) {
-        console.log(error);
+    deleteResultsToEdit() {
+      let form = document.getElementById("createSurveyFormPart2");
+      // Create an input element for Full Name
+
+      for (let i = 0; i < this.resultsNum; i++) {
+        let resultLabelToDelete = document.getElementById("resultLabel" + (i+1));
+        let riToDelete = document.getElementById("resultContent" + (i+1));
+        let rbr1ToDelete = document.getElementById("rbreak" + (i+1) + 1);
+        let rbr2ToDelete = document.getElementById("rbreak" + (i+1) + 2);
+    
+        form.removeChild(resultLabelToDelete);
+        form.removeChild(riToDelete);
+        form.removeChild(rbr1ToDelete);
+        form.removeChild(rbr2ToDelete);
       }
     },
   }
